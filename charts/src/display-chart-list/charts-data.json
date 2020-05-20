@@ -1,0 +1,18 @@
+[
+    {
+        "name": "Pie Chart",
+        "link": "/piechart",
+        "description": "Custom pie chart with dynamic data and legends."
+    },
+    {
+        "name": "Bar Chart",
+        "link": "/barchart",
+        "description": "Custom bar chart with dynamic data and legends."
+    },
+    {
+        "name": "Tree Chart",
+        "link": "/treeMap",
+        "description": "Maps the graph data with nodes and links."
+    }
+    
+]
