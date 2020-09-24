@@ -4,6 +4,7 @@ import DisplayChartList from './display-chart-list/display-chart-list'
 import PieChart from './charts/pie-chart/pie-chart';
 import BarChart from './charts/bar-chart/bar-chart';
 import TreeMap from './charts/tree-map/tree-map';
+import DonutChart from './charts/donut-chart/donut-chart';
 
 
 class AppRouter extends Component {
@@ -14,7 +15,9 @@ class AppRouter extends Component {
             <React.Fragment>
                 <Switch>
                 <Route exact path='/' component={DisplayChartList} />
-                    <Route exact path='/piechart' component={PieChart} />
+                <Route exact path='/piechart' component={PieChart} />
+                    <Route exact path='/donutchart' component={DonutChart} />
+                    
                     <Route exact path='/barchart' component={BarChart} />
                     <Route exact path='/treeMap' component={TreeMap} />
                 </Switch>

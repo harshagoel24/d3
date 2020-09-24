@@ -5,6 +5,11 @@
         "description": "Custom pie chart with dynamic data and legends."
     },
     {
+        "name": "Donut Chart",
+        "link": "/donutchart",
+        "description": "Custom donut chart with dynamic data and legends."
+    },
+    {
         "name": "Bar Chart",
         "link": "/barchart",
         "description": "Custom bar chart with dynamic data and legends."

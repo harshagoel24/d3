@@ -16,7 +16,7 @@ const options = {
     tooltip: true
 }
 
-export class PieChart extends Component {
+export class DonutChart extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -73,11 +73,12 @@ export class PieChart extends Component {
 
         var path = d3.arc()
             .outerRadius(radius)
-            .innerRadius(0);
+            .innerRadius(radius - 15);
 
         var pathOver = d3.arc()
-            .innerRadius(0)
+            .innerRadius(radius - 15)
             .outerRadius(radius + 1);
+
 
         var arc = g.selectAll(".arc-group")
             .data(pie(data));
@@ -88,17 +89,29 @@ export class PieChart extends Component {
             .attr("class", "arc-group")
         arc = d3.selectAll(".arc-group")
 
+        var donutCenterText = arc.selectAll(".donutCenterText").data([0]);
+            donutCenterText.exit().remove();
+            donutCenterText.enter()
+            .append('text')
+            .attr('class','donutCenterText')
+            .attr('x',0)
+            .attr('y',0)
+            .style('display', 'block')
+            .style("text-anchor",'middle')
+            .text("dfcved")
+            
+            donutCenterText =  d3.selectAll('.donutCenterText')
         var arcPath = arc.selectAll("path").data(function (d) { return [d] });
-        arcPath.exit().transition().delay(function(d,i){
-            return i*500
+        arcPath.exit().transition().delay(function (d, i) {
+            return i * 500
         }).duration(500)
-        .attrTween('d',function(d){
-            var i = d3.interpolate(d.startAngle+0.1,d.endAngle);
-            return function(t){
-                d.endAngle = i(t);
-                return path(d)
-            }
-        }).remove();
+            .attrTween('d', function (d) {
+                var i = d3.interpolate(d.startAngle + 0.1, d.endAngle);
+                return function (t) {
+                    d.endAngle = i(t);
+                    return path(d)
+                }
+            }).remove();
         arcPath
             .enter()
             .append("path")
@@ -118,11 +131,13 @@ export class PieChart extends Component {
                         .style('left', (d3.event.pageX) + 'px')
                         .style('display', 'block')
                         .style('border', '1px solid ' + color(d.data[options.valueKey]))
-                        .html((d.data.key + " : "+ d.data.value))
+                        .html((d.data.key + " : " + d.data.value))
+
+                        donutCenterText.style('display', 'block').text(d.data.value).style('fill',"#000000")
                 }
             })
             .on('mousemove', function (d) {
-               
+
                 tooltip
                     .style('top', (d3.event.pageY - 65) + 'px')
                     .style('left', (d3.event.pageX - 50) + 'px');
@@ -131,18 +146,33 @@ export class PieChart extends Component {
                 d3.select(this).transition()
 
                     .attr("d", path);
+
+
+
                 tooltip.style('display', 'none')
+                
+                donutCenterText.style('display', 'none')
             })
-            .transition().delay(function(d,i){
-                return i*500
+            .on('click',function(d){
+                
+                d3.select(this).transition()
+                        .duration(400)
+                        .attr("d", pathOver);
+                        donutCenterText.classed("donutSelected", true).style('display', 'block').text(d.data.value).style('fill',"#000000")
+
+            })
+            .transition().delay(function (d, i) {
+                return i * 500
             }).duration(500)
-            .attrTween('d',function(d){
-                var i = d3.interpolate(d.startAngle+0.1,d.endAngle);
-                return function(t){
+            .attrTween('d', function (d) {
+                var i = d3.interpolate(d.startAngle + 0.1, d.endAngle);
+                return function (t) {
                     d.endAngle = i(t);
                     return path(d)
                 }
             });
+
+            
 
         if (options.legends) {
             var legendCircleRadius = 2
@@ -150,7 +180,7 @@ export class PieChart extends Component {
             legendGroup.exit().remove();
             legendGroup.enter().append("g")
                 .attr("class", "legend-container")
-                .attr("transform", "translate(" + (legendCircleRadius) + "," + (2*radius + 15) + ")");
+                .attr("transform", "translate(" + (legendCircleRadius) + "," + (2 * radius + 15) + ")");
             legendGroup = d3.selectAll(".legend-container")
 
             var eachLegend = legendGroup.selectAll(".eachLegend").data(data);
@@ -189,7 +219,7 @@ export class PieChart extends Component {
                 .attr("class", "legendText")
                 .merge(legendText)
                 .attr("x", legendCircleRadius + 1)
-                .attr("y", legendCircleRadius*2)
+                .attr("y", legendCircleRadius * 2)
                 .text(function (d, i, j) {
                     console.log(d)
                     return d[options.textKey];
@@ -231,4 +261,4 @@ export class PieChart extends Component {
     }
 }
 
-export default PieChart
+export default DonutChart

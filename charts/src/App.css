@@ -36,3 +36,18 @@
     transform: rotate(360deg);
   }
 }
+
+.d3tooltip{
+  background: white;
+  box-shadow: 0 0 5px #999999;
+  display: none;
+  color: black;
+  font-size:12px;
+  border-radius: 5px;
+  padding: 10px;
+  position: absolute;
+  opacity: 0.85;
+  text-align: center;
+  top:0;
+  z-index: 10;
+}
